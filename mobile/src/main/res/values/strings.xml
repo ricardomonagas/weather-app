@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Weather Forecast</string>
+
+    <!-- Menu -->
+
+    <string name="action_settings">Settings</string>
+    <string name="action_more">More</string>
+    <string name="action_about">About</string>
+
+    <!-- Navigation Drawer -->
+
+    <string-array name="menu_items">
+        <item>@string/today</item>
+        <item>@string/forecast</item>
+    </string-array>
+
+    <string-array name="menu_icons">
+        <item>today</item>
+        <item>forecast</item>
+    </string-array>
+
+
+    <!-- Today Forecast -->
+    <string name="today">Today</string>
+
+    <string name="city">City</string>
+
+    <!-- Next Days Forecast -->
+
+    <string name="forecast">Forecast</string>
+
+    <string name="day">Day</string>
+    <string name="temperature">Temperature</string>
+    <string name="humidity">Humidity</string>
+    <string name="condition">Condition</string>
+    <string name="precipitation">Precipitation</string>
+    <string name="pressure">Pressure</string>
+    <string name="wind_speed">Wind Speed</string>
+    <string name="direction">Direction</string>
+
+    <!-- About Dialog -->
+
+    <string name="about">About</string>
+    <string name="about_text">This is a Test Project made by Ricardo Monagas.</string>
+
+    <!-- Preferences -->
+
+    <string name="speed_unit_key">speed_unit</string>
+    <string name="temperature_unit_key">temperature_unit</string>
+
+    <string name="speed_unit">Unit of Speed</string>
+    <string name="temperature_unit">Unit of Temperature</string>
+
+
+    <string name="miles_ph_key">miles_ph</string>
+    <string name="kilometers_ph_key">kilometers_ph</string>
+
+    <string name="miles_ph">Miles Per Hour</string>
+    <string name="kilometers_ph">Kilometers Per Hour</string>
+
+    <string name="miles_ph_sign">mi/h</string>
+    <string name="kilometers_sign">km/h</string>
+
+    <string-array name="speed_units">
+        <item>@string/miles_ph</item>
+        <item>@string/kilometers_ph</item>
+    </string-array>
+
+    <string-array name="speed_units_values">
+        <item>@string/miles_ph_key</item>
+        <item>@string/kilometers_ph_key</item>
+    </string-array>
+
+
+    <string name="celsius_key">celsius</string>
+    <string name="fahrenheit_key">fahrenheit</string>
+
+    <string name="celsius">Celsius</string>
+    <string name="fahrenheit">Fahrenheit</string>
+
+    <string name="celsius_sign">°C</string>
+    <string name="fahrenheit_sign">°F</string>
+
+    <string-array name="temperature_units">
+        <item>@string/celsius</item>
+        <item>@string/fahrenheit</item>
+    </string-array>
+
+    <string-array name="temperature_units_values">
+        <item>@string/celsius_key</item>
+        <item>@string/fahrenheit_key</item>
+    </string-array>
+
+</resources>
