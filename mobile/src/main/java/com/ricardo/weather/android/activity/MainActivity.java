@@ -1,21 +1,15 @@
 package com.ricardo.weather.android.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ricardo.weather.android.R;
-import com.ricardo.weather.android.adapter.DrawerArrayAdapter;
 import com.ricardo.weather.android.client.Client;
 import com.ricardo.weather.android.utility.Utils;
 import com.ricardo.weather.android.utility.WeatherForecastAPI;
@@ -31,13 +25,9 @@ public class MainActivity extends BaseActivity {
     private LocationManager mLocationManager;
     private Location mCurrentLocation;
 
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
-    private DrawerLayout.DrawerListener mDrawerItemClickListener;
-
     private JSONObject mCity;
     private JSONObject mCurrentCondition;
-    private JSONArray mForecast;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +37,51 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         init();
+
+    }
+
+
+    protected void onResume() {
+
+
+        super.onResume();
+
+        // GPS / Internet Desactivated
+
+        ViewGroup loading = (ViewGroup) findViewById(R.id.loading);
+
+        if(loading.isShown() && !mAnimation.isInitialized()) {
+
+            showSunAnimation();
+
+            getLocation(this);
+
+        }
+
+        // Update Units
+
+        else {
+
+
+            String speedUnit = Utils.getPreferenceValue(getString(R.string.speed_unit_key), getString(R.string.kilometers_ph_key));
+
+            String temperatureUnit = Utils.getPreferenceValue(getString(R.string.temperature_unit_key), getString(R.string.celsius_key));
+
+
+            // Update Speed Unit
+
+            if(mCurrentSpeedUnit != null && !mCurrentSpeedUnit.contentEquals(speedUnit))
+
+                renderWindSpeed();
+
+
+            // Update Temperature Unit
+
+            if(mCurrentTemperatureUnit != null && !mCurrentTemperatureUnit.contentEquals(temperatureUnit))
+
+                renderCondition();
+
+        }
 
     }
 
@@ -60,9 +95,9 @@ public class MainActivity extends BaseActivity {
         initToolbar(getString(R.string.today));
 
 
-        // Show Loading
+        // Show Sun Animation
 
-        showLoading();
+        showSunAnimation();
 
 
         // Init Drawer
@@ -73,75 +108,6 @@ public class MainActivity extends BaseActivity {
         // Get Current Location
 
         getLocation(this);
-
-    }
-
-
-    private void initDrawer()
-    {
-
-
-        String[] menuItems = getResources().getStringArray(R.array.menu_items);
-
-        String[] menuIcons = getResources().getStringArray(R.array.menu_icons);
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        mDrawerList.setAdapter(new DrawerArrayAdapter(this, menuItems, menuIcons));
-
-        // Set the list's click listener
-
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Log.d("Drawer Item", "Clicked");
-
-                startForecastActivity();
-
-            }
-        });
-
-        //mDrawerItemClickListener = new DrawerItemClickListener(this, mDrawerLayout);
-
-        //mDrawerList.setOnItemClickListener(mDrawerItemClickListener);
-
-        /*
-        drawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                R.drawable.ic_drawer,
-                R.string.drawer_open,
-                R.string.drawer_close
-        )
-        {
-
-            public void onDrawerClosed(View view)
-            {
-
-                invalidateOptionsMenu();
-
-            }
-
-            public void onDrawerOpened(View drawerView)
-            {
-
-                invalidateOptionsMenu();
-            }
-        };
-        */
-
-        //mDrawerLayout.setDrawerListener(drawerToggle);
-
-
-        // Enable ActionBar app icon to behave as action to toggle nav drawer
-
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //getActionBar().setHomeButtonEnabled(true);
 
     }
 
@@ -196,7 +162,7 @@ public class MainActivity extends BaseActivity {
 
         renderWeatherDirection();
 
-        hideLoading();
+        hideSunAnimation();
 
     }
 
@@ -265,8 +231,6 @@ public class MainActivity extends BaseActivity {
 
         TextView city = ((TextView) findViewById(R.id.city));
 
-        city.setTypeface(robotoLight);
-
         city.setText(regionText + ", " + countryText);
 
     }
@@ -305,7 +269,7 @@ public class MainActivity extends BaseActivity {
 
         // Temperature
 
-        String currentUnit = Utils.getPreferenceValue(key);
+        String currentUnit = Utils.getPreferenceValue(key, celsiusKey);
 
         // Celsius
 
@@ -331,7 +295,9 @@ public class MainActivity extends BaseActivity {
 
         String message = !conditionValue.isEmpty() ? temperatureValue + temperatureUnit + " | " + conditionValue : temperatureValue;
 
-        ((TextView) findViewById(R.id.temperature)).setText(message);
+        TextView textView = ((TextView) findViewById(R.id.temperature));
+
+        textView.setText(message);
 
     }
 
@@ -373,7 +339,7 @@ public class MainActivity extends BaseActivity {
         String unit = "";
 
 
-        String currentUnit = Utils.getPreferenceValue(key);
+        String currentUnit = Utils.getPreferenceValue(key, kmhKey);
 
         // Km/h
 
@@ -381,7 +347,7 @@ public class MainActivity extends BaseActivity {
 
             value = mCurrentCondition.optString(WeatherForecastAPI.WIND_SPEED_KMPH_KEY);
 
-            unit = getString(R.string.miles_ph_sign);
+            unit = getString(R.string.kilometers_sign);
         }
 
         // Mi/h
@@ -406,19 +372,6 @@ public class MainActivity extends BaseActivity {
         ((TextView) findViewById(R.id.direction)).setText(value);
     }
 
-
-    private void showLoading() {
-
-        findViewById(R.id.loading).setVisibility(View.VISIBLE);
-
-    }
-
-
-    private void hideLoading() {
-
-        findViewById(R.id.loading).setVisibility(View.GONE);
-
-    }
 
     // Getters
 
@@ -448,7 +401,7 @@ public class MainActivity extends BaseActivity {
 
         } else {
 
-            // Show a Dialog about GPS not activated
+            renderInformationMessage(getString(R.string.no_gps));
 
         }
 
@@ -464,24 +417,6 @@ public class MainActivity extends BaseActivity {
             mLocationManager.removeUpdates(mLocationListener);
 
         }
-
-    }
-
-
-    private void startForecastActivity() {
-
-        Intent intent = new Intent(MainActivity.this, ForecastActivity.class);
-
-
-        // Forecast
-
-        if(mForecast != null && mForecast.length() > 0) {
-
-            intent.putExtra(WeatherForecastAPI.WEATHER_KEY, mForecast.toString());
-
-        }
-
-        startActivity(intent);
 
     }
 
@@ -512,15 +447,19 @@ public class MainActivity extends BaseActivity {
                 float longitude = (float) mCurrentLocation.getLongitude();
 
 
-                Client.sendTodayWeatherRequest(MainActivity.this, latitude, longitude);
+                if(Utils.isThereConnection(getApplicationContext())) {
 
-                Client.sendNextDaysWeatherRequest(MainActivity.this, latitude, longitude);
+                    Client.sendTodayWeatherRequest(MainActivity.this, latitude, longitude);
 
-                // Save Location
+                    Client.sendNextDaysWeatherRequest(MainActivity.this, latitude, longitude);
 
-                //Utils.getPreferences(Utils.TAG, getApplicationContext()).edit().putFloat(Media.LAT_KEY, latitude).apply();
+                } else {
 
-                //Utils.getPreferences(Utils.TAG, getApplicationContext()).edit().putFloat(Media.LNG_KEY, longitude).apply();
+                    renderInformationMessage(getString(R.string.no_internet));
+
+                }
+
+
 
             }
 

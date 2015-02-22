@@ -3,6 +3,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
 >
 
     <!-- Content -->
@@ -15,6 +16,10 @@
         android:orientation="vertical"
 
    >
+
+        <include layout="@layout/view_toolbar" />
+
+        <include layout="@layout/view_loading" />
 
         <ListView
             android:id="@+id/list"
@@ -31,10 +36,12 @@
 
     <ListView
         android:id="@+id/left_drawer"
-        android:layout_width="240dp"
+        android:layout_width="@dimen/drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
+        android:divider="@null"
+        android:background="@color/white"
     />
 
 </android.support.v4.widget.DrawerLayout>

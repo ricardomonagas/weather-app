@@ -1,6 +1,7 @@
 package com.ricardo.weather.android.adapter;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ricardo.weather.android.R;
+import com.ricardo.weather.android.activity.ForecastActivity;
+import com.ricardo.weather.android.activity.MainActivity;
 
 public class DrawerArrayAdapter extends ArrayAdapter<Object>
 {
@@ -24,11 +27,13 @@ public class DrawerArrayAdapter extends ArrayAdapter<Object>
 
     // Variables
 
-	protected Context context;
+    protected Activity mActivity;
 
-    protected String[] icons;
+	protected Context mContext;
 
-    protected String[] values;
+    protected String[] mIcons;
+
+    protected String[] mValues;
 
 
     // Classes
@@ -47,16 +52,18 @@ public class DrawerArrayAdapter extends ArrayAdapter<Object>
 
 	// Constructor
 
-	public DrawerArrayAdapter(Context context, String[] values, String[] icons)
+	public DrawerArrayAdapter(Activity activity, Context context, String[] values, String[] icons)
 	{
 	    
 		super(context, R.layout.icon_list_item, values);
-	    
-	    this.context = context;
-	    
-	    this.values = values;
 
-        this.icons = icons;
+        this.mActivity = activity;
+	    
+	    this.mContext = context;
+	    
+	    this.mValues = values;
+
+        this.mIcons = icons;
 	    
 	 }
 	
@@ -70,7 +77,7 @@ public class DrawerArrayAdapter extends ArrayAdapter<Object>
 		 
 	    View rowView = convertView;
 
-	    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	    LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    	
 	    rowView = inflater.inflate(R.layout.icon_list_item, null);
 	    	
@@ -110,34 +117,50 @@ public class DrawerArrayAdapter extends ArrayAdapter<Object>
 
             // Title
 
-			String caption = values[position];
-		    
-		    if(caption != null)
-		    {
-
-		        holder.title.setText(caption);
-		    	
-		    }
-		    else
-		    	
-		    	holder.title.setText("");
+			loadTitle(holder, position);
 
 	}
+
+    private void loadTitle(ViewHolder holder, int position) {
+
+
+        String caption = mValues[position];
+
+        if(caption != null)
+        {
+
+            holder.title.setText(caption);
+
+            if((mActivity instanceof MainActivity) && mIcons[position].contentEquals(TODAY_KEY))
+
+                holder.title.setTextColor(mActivity.getResources().getColor(R.color.action_bar_color));
+
+            else if((mActivity instanceof ForecastActivity) && mIcons[position].contentEquals(FORECAST_KEY))
+
+                holder.title.setTextColor(mActivity.getResources().getColor(R.color.action_bar_color));
+
+
+
+        }
+        else
+
+            holder.title.setText("");
+    }
 
     private void loadIcon(ViewHolder holder, int position)
     {
 
         // Today
 
-        if(icons[position].contentEquals(TODAY_KEY))
+        if(mIcons[position].contentEquals(TODAY_KEY))
 
-            holder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_drawer_today_dark));
+            holder.icon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_drawer_today_dark));
 
         // Forecast
 
-        else if(icons[position].contentEquals(FORECAST_KEY))
+        else if(mIcons[position].contentEquals(FORECAST_KEY))
 
-            holder.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_drawer_forecast_dark));
+            holder.icon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_drawer_forecast_dark));
 
     }
 

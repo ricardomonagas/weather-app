@@ -4,24 +4,28 @@
     android:id="@+id/loading"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:visibility="gone"
 >
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="@android:style/Widget.ProgressBar.Large"
+    <ImageView
+        android:id="@+id/sun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-
+        android:src="@drawable/ic_sun"
     />
 
     <TextView
+        android:id="@+id/text"
+        style="@style/Text.Loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/progress_bar"
+        android:layout_below="@id/sun"
         android:layout_centerHorizontal="true"
-        android:text="Test"
+        android:gravity="center_horizontal"
+        android:text="@string/loading"
     />
 
 </RelativeLayout>

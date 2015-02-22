@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.widget.ImageView;
@@ -60,8 +62,6 @@ public class Utils
 
     public static void init(Context context) {
 
-        initTypefaces(context);
-
         initPreferences(context);
 
     }
@@ -89,12 +89,20 @@ public class Utils
 
     }
 
+    // Internet
 
-    public static void initTypefaces(Context context) {
+    public static boolean isThereConnection(Context context)
+    {
 
-        robotoLight = Typeface.createFromAsset(context.getAssets(), APP_TYPEFACE + SLASH + LIGHT_TYPEFACE);
-        robotoRegular = Typeface.createFromAsset(context.getAssets(), APP_TYPEFACE + SLASH + REGULAR_TYPEFACE);
-        robotoBold = Typeface.createFromAsset(context.getAssets(), APP_TYPEFACE + SLASH + BOLD_TYPEFACE);
+        boolean result = false;
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+
+        result = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        return result;
 
     }
 
@@ -128,9 +136,9 @@ public class Utils
 
     // Preferences
 
-    public static String getPreferenceValue(String key) {
+    public static String getPreferenceValue(String key, String substitute) {
 
-        return preferences.getString(key, "");
+        return preferences.getString(key, substitute);
 
     }
 

@@ -4,16 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:paddingTop="@dimen/view_weather_item_padding"
+    android:paddingLeft="@dimen/view_weather_item_padding"
+    android:paddingBottom="@dimen/view_weather_item_padding"
 >
 
-    <ImageView
-        android:id="@+id/icon"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:background="@drawable/overlay_weather_status_forecast"
+    >
 
-    />
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/view_forecast_condition_icon_size"
+            android:layout_height="@dimen/view_forecast_condition_icon_size"
+            android:layout_gravity="center"
+        />
+
+        <ImageView
+            android:id="@+id/overlay"
+            android:layout_width="@dimen/view_forecast_condition_overlay_size"
+            android:layout_height="@dimen/view_forecast_condition_overlay_size"
+            android:layout_gravity="center"
+            android:background="@drawable/overlay_weather_status_forecast"
+
+            />
+
+    </FrameLayout>
 
     <!-- Weather Description -->
 
@@ -22,11 +40,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_marginLeft="@dimen/view_description_margin_left"
-        android:paddingRight="@dimen/view_description_margin_right"
     >
 
         <TextView
             android:id="@+id/day"
+            style="@style/Text.Day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -36,6 +54,7 @@
 
         <TextView
             android:id="@+id/temperature"
+            style="@style/Text.ForecastTemperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/day"
@@ -46,22 +65,24 @@
 
         <TextView
             android:id="@+id/condition"
+            style="@style/Text.Condition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@id/day"
+            android:layout_toRightOf="@id/temperature"
             android:layout_alignBaseline="@id/temperature"
+            android:layout_marginLeft="@dimen/view_forecast_condition_text_margin_left"
             android:text="@string/condition"
         />
 
-        <!--
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/view_divider_height"
-            android:layout_alignParentBottom="true"
-            android:background="@color/medium_gray"
+            android:layout_below="@id/temperature"
+            android:background="@color/light_gray"
         />
-        -->
+
 
     </RelativeLayout>
 

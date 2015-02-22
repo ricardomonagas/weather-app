@@ -59,6 +59,8 @@ public class WeatherForecastAPI {
 
         public static final String TEMPC_KEY = "tempC";
 
+        public static final String TEMPF_KEY = "tempF";
+
         public static final String HUMIDITY_KEY = "humidity";
 
         public static final String PRECIPITATION_KEY = "precipMM";

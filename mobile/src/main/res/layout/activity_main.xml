@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity"
+    tools:ignore="MissingPrefix"
 >
 
     <!-- Content -->
@@ -25,14 +27,30 @@
 
         <!-- Condition Icon -->
 
-        <ImageView
-            android:id="@+id/condition_icon"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:layout_marginTop="@dimen/view_condition_icon_margin_top"
-            android:background="@drawable/overlay_weather_status_today"
-        />
+        >
+
+            <ImageView
+                android:id="@+id/condition_icon"
+                android:layout_width="@dimen/view_today_condition_icon_size"
+                android:layout_height="@dimen/view_today_condition_icon_size"
+                android:layout_gravity="center"
+            />
+
+            <ImageView
+                android:id="@+id/overlay"
+                android:layout_width="@dimen/view_today_condition_overlay_size"
+                android:layout_height="@dimen/view_today_condition_overlay_size"
+                android:layout_gravity="center"
+                android:background="@drawable/overlay_weather_status_today"
+
+            />
+
+        </FrameLayout>
 
         <!-- City -->
 
@@ -50,6 +68,7 @@
 
         <TextView
             android:id="@+id/temperature"
+            style="@style/Text.Temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -57,11 +76,22 @@
         />
 
 
+        <!-- Divider -->
+
+        <View
+            style="@style/Divider"
+            android:layout_width="@dimen/view_divider_width"
+            android:layout_height="@dimen/view_divider_height"
+            android:layout_gravity="center_horizontal"
+        />
+
         <!-- First Row: Forecast Icons -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:orientation="horizontal"
         >
 
@@ -84,6 +114,7 @@
 
                 <TextView
                     android:id="@+id/humidity"
+                    style="@style/Text.Info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -112,6 +143,7 @@
 
                 <TextView
                     android:id="@+id/precipitation"
+                    style="@style/Text.Info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -139,6 +171,7 @@
 
                 <TextView
                     android:id="@+id/pressure"
+                    style="@style/Text.Info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -158,7 +191,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/view_second_row_margin_top"
+        >
 
             <!-- Wind Speed -->
 
@@ -179,6 +215,7 @@
 
                 <TextView
                     android:id="@+id/wind_speed"
+                    style="@style/Text.Info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -207,6 +244,7 @@
 
                 <TextView
                     android:id="@+id/direction"
+                    style="@style/Text.Info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

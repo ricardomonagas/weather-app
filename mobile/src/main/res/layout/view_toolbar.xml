@@ -8,7 +8,8 @@
     android:layout_height="wrap_content"
     android:minHeight="?attr/actionBarSize"
     app:navigationContentDescription="@string/abc_action_bar_up_description"
-    android:background="?attr/colorPrimary"
+    android:background="@color/action_bar_color"
     app:navigationIcon="@drawable/ic_drawer"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
 
 />

@@ -3,6 +3,22 @@
 
     <string name="app_name">Weather Forecast</string>
 
+    <!-- Fonts -->
+
+    <string name="roboto_light">fonts/Roboto-Light.ttf</string>
+    <string name="roboto_medium">fonts/Roboto-Medium.ttf</string>
+    <string name="roboto_regular">fonts/Roboto-Regular.ttf</string>
+
+    <!-- Loading -->
+
+    <string name="loading">We are bringing the Weather Forecast for you! :D</string>
+
+    <!-- Messages -->
+
+    <string name="no_gps">Ooops! We cannot get your Current Location to inform the Weather :(. Please activate the GPS.</string>
+    <string name="no_internet">Ooops! We cannot get the Weather Forecast :(. Please check your Internet Connection.</string>
+    <string name="no_forecast">Ooops! We cannot get the Weather Forecast :(. Please check your Internet Connection and/or your GPS.</string>
+
     <!-- Menu -->
 
     <string name="action_settings">Settings</string>
@@ -10,6 +26,9 @@
     <string name="action_about">About</string>
 
     <!-- Navigation Drawer -->
+
+    <string name="open">Open</string>
+    <string name="closed">Closed</string>
 
     <string-array name="menu_items">
         <item>@string/today</item>

@@ -138,9 +138,26 @@ public class ForecastArrayAdapter extends ArrayAdapter<Object>
 
                 // Temperature
 
-                String temperature = value.optString(WeatherForecastAPI.TEMPC_KEY);
+                String currentUnit = Utils.getPreferenceValue(activity.getString(R.string.temperature_unit_key), activity.getString(R.string.celsius_key));
 
-                ((TextView) view.findViewById(R.id.temperature)).setText(temperature + "°C");
+                String temperature = "";
+
+                String unit = "";
+
+                if(currentUnit.contentEquals(activity.getString(R.string.fahrenheit_key))) {
+
+                    temperature = value.optString(WeatherForecastAPI.TEMPF_KEY);
+
+                    unit = activity.getString(R.string.fahrenheit_sign);
+
+                } else {
+
+                    temperature = value.optString(WeatherForecastAPI.TEMPC_KEY);
+
+                    unit = activity.getString(R.string.celsius_sign);
+                }
+
+                ((TextView) view.findViewById(R.id.temperature)).setText(temperature + unit);
 
 
                 // Weather Description / Condition
@@ -167,7 +184,13 @@ public class ForecastArrayAdapter extends ArrayAdapter<Object>
         }
 
     }
-	 
+
+    private void renderTemperature() {
+
+
+
+    }
+
     private String getWeekDay(String stringDate) {
 
         String result = null;
